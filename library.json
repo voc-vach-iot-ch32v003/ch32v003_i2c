@@ -1,0 +1,35 @@
+{
+    "name": "ch32v003_i2c",
+    "version": "1.0.0",
+    "description": "Thư viện Driver tinh gọn hỗ trợ song song I2C Hardware (Remap chân) và I2C Software Bit-banging cho CH32V003.",
+    "keywords": [
+        "i2c",
+        "hardware-i2c",
+        "bit-banging",
+        "remap",
+        "ch32v003",
+        "ch32v003fun"
+    ],
+    "authors": [
+        {
+            "name": "Vọc Vạch IoT",
+            "maintainer": true
+        }
+    ],
+    "frameworks": [
+        "ch32v003fun"
+    ],
+    "platforms": [
+        "ch32v"
+    ],
+    "build": {
+        "flags": [
+            "-I ."
+        ]
+    },
+    "dependencies": [
+        "https://github.com/voc-vach-iot-ch32v003/ch32v003_gpio.git",
+        "https://github.com/voc-vach-iot-ch32v003/ch32v003_debug.git"
+    ]
+}
+
