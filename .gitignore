@@ -1,0 +1,7 @@
+# Chặn mọi thư mục .idea và .pio ở bất kỳ thư mục con nào
+**/.idea/
+**/.pio/
+
+# Hoặc viết ngắn gọn như này cũng được chặn toàn bộ:
+.idea/
+.pio/

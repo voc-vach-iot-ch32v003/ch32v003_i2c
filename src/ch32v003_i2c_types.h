@@ -2,8 +2,6 @@
  * @file ch32v003_i2c_types.h
  * @author Vọc Vạch IoT
  * @brief Định nghĩa cấu trúc dữ liệu và enum cấu hình hệ thống I2C cho CH32V003.
- * @version 1.0.0
- * @date 2026-09-17
  */
 
 #ifndef CH32V003_I2C_TYPES_H
