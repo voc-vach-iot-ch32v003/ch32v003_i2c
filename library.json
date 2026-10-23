@@ -1,6 +1,6 @@
 {
   "name": "ch32v003_i2c",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Thư viện I2C Master cho CH32V003: I2C phần cứng (100/400kHz, Remap chân) và I2C phần mềm bit-banging chung một API, tự giải phóng bus khi NACK.",
   "keywords": [
     "i2c",
@@ -28,11 +28,11 @@
   "dependencies": [
     {
       "name": "ch32v003_gpio",
-      "version": "https://github.com/voc-vach-iot-ch32v003/ch32v003_gpio.git"
+      "version": "https://github.com/voc-vach-iot-ch32v003/ch32v003_gpio.git#v2.0.1"
     },
     {
       "name": "ch32v003_debug",
-      "version": "https://github.com/voc-vach-iot-ch32v003/ch32v003_debug.git"
+      "version": "https://github.com/voc-vach-iot-ch32v003/ch32v003_debug.git#v1.0.0"
     }
   ]
 }
