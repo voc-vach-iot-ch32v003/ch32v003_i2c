@@ -27,6 +27,17 @@ static uint8_t i2cHardwareWaitFlag(const uint16_t flag)
 }
 
 /**
+ * @brief Chờ phần cứng phát xong STOP (bit STOP tự xóa) để giao dịch kế tiếp không đè START lên STOP.
+ */
+static void i2cHardwareWaitStopCleared(void)
+{
+    uint32_t stopTimeout = I2C_TIMEOUT_COUNT;
+    while ((I2C1->CTLR1 & I2C_CTLR1_STOP) && --stopTimeout)
+    {
+    }
+}
+
+/**
  * @brief Hủy giao dịch đang dở: xóa cờ NACK và phát STOP để thiết bị tớ nhả Bus.
  * @details Nếu bỏ qua bước này, cờ AF và trạng thái Master bị treo khiến mọi giao dịch sau đều lỗi.
  */
@@ -39,10 +50,7 @@ static void i2cHardwareAbort(void)
     I2C1->CTLR1 |= I2C_CTLR1_STOP;
 
     // Chờ phần cứng phát xong STOP (bit tự xóa) trước khi cho phép START mới
-    uint32_t timeout = I2C_TIMEOUT_COUNT;
-    while ((I2C1->CTLR1 & I2C_CTLR1_STOP) && --timeout)
-    {
-    }
+    i2cHardwareWaitStopCleared();
 }
 
 /**
@@ -50,6 +58,9 @@ static void i2cHardwareAbort(void)
  */
 static uint8_t i2cHardwareStartAddress(const uint8_t slaveAddress, const uint8_t direction)
 {
+    // STOP của giao dịch trước có thể chưa phát xong: chờ xóa, kẻo MSL còn bật bị hiểu nhầm là Repeated START
+    i2cHardwareWaitStopCleared();
+
     // Nếu chưa làm Master (không phải Restart), kiểm tra xem đường Bus có bận không
     if (!(I2C1->STAR2 & I2C_STAR2_MSL))
     {
@@ -282,7 +293,9 @@ uint8_t i2cRead(const I2C_DriverHandle_t* handle, const uint8_t ackOption)
         {
             return 0;
         }
-        return I2C1->DATAR;
+        const uint8_t data = I2C1->DATAR;
+        if (!ackOption) i2cHardwareWaitStopCleared(); // Đã tự đặt STOP: chờ phát xong
+        return data;
     }
 
     // --- TRƯỜNG HỢP 2: SỬ DỤNG I2C PHẦN MỀM (BIT-BANGING) ---
@@ -403,6 +416,7 @@ uint8_t i2cReadBurst(const I2C_DriverHandle_t* handle, const uint8_t slaveAddres
             }
             buffer[i] = I2C1->DATAR;
         }
+        i2cHardwareWaitStopCleared(); // STOP đã đặt trước byte cuối: chờ phát xong
         return 1;
     }
 

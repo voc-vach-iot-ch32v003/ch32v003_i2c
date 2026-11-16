@@ -1,6 +1,6 @@
 {
   "name": "ch32v003_i2c",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Thư viện I2C Master cho CH32V003: I2C phần cứng (100/400kHz, Remap chân) và I2C phần mềm bit-banging chung một API, tự giải phóng bus khi NACK.",
   "keywords": [
     "i2c",
